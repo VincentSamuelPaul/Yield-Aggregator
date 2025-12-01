@@ -1,0 +1,59 @@
+Multi-Account Testing Workflow
+Setup (Use MetaMask Account Switching)
+You'll need to switch between 3 MetaMask accounts:
+
+Lender 1 (your current account)
+Lender 2 (switch to a different account in MetaMask)
+Borrower (switch to a third account)
+Step-by-Step Test Scenario
+Phase 1: Initial Deposits
+Lender 1 deposits 1 ETH
+Connect with Account 1
+Deposit 1 ETH
+Observe: "Strategy Balance" ≈ 0.9 ETH (90% invested)
+Observe: "Idle Liquidity" ≈ 0.1 ETH (10% buffer)
+Observe: "Your Shares" = 1 ETH worth
+Lender 2 deposits 0.5 ETH
+Switch to Account 2 in MetaMask
+Reload page (auto-connect should work)
+Deposit 0.5 ETH
+Observe: "Total Assets" = 1.5 ETH
+Observe: "Strategy Balance" ≈ 1.35 ETH
+Observe: "Your Shares" = 0.5 ETH worth
+Phase 2: Borrowing
+Borrower borrows 0.2 WETH
+Switch to Account 3
+Reload page
+Borrow 0.2 WETH
+Observe: "Your Debt" = 0.22 WETH (0.2 + 10% fee)
+Observe: "Total Borrowed" = 0.22 WETH
+Observe: If idle liquidity < 0.2, the Vault auto-withdraws from Strategy
+Phase 3: Yield Generation
+Harvest Yield (Any account can do this)
+Click "Harvest Yield"
+Observe: "Strategy Balance" increases by 5%
+Observe: "Total Assets" increases (profit!)
+Phase 4: Repayment & Withdrawals
+Borrower repays debt
+Switch back to Borrower account
+Repay 0.22 WETH (full debt)
+Observe: "Your Debt" = 0
+Lender 1 withdraws
+Switch to Account 1
+Click "Withdraw All Shares"
+Observe: You get back MORE than 1 ETH (your share of the yield + borrow fees!)
+Lender 2 withdraws
+Switch to Account 2
+Withdraw all
+Observe: You also profit from yield
+Expected Results
+Lenders earn: Yield from Strategy (5% on harvest) + Borrow fees (10% of borrowed amount)
+Strategy works: Funds move automatically between Vault and Strategy
+Fair distribution: Each lender's profit is proportional to their shares
+Quick Verification Checklist
+✅ Deposits increase "Total Assets"
+✅ 90% of deposits go to Strategy
+✅ Borrows pull from Idle first, then Strategy
+✅ Harvest increases Strategy balance
+✅ Withdrawals give back principal + profit
+✅ Multiple users can interact simultaneously
