@@ -68,10 +68,6 @@ contract Vault {
         if (availableLiquidity < amountToWithdraw && address(strategy) != address(0)) {
             uint256 shortage = amountToWithdraw - availableLiquidity;
             strategy.withdraw(shortage);
-            // Strategy returns ETH, wrap it back to WETH for consistency or just use it
-            // Actually, our withdraw logic unwraps WETH at the end anyway.
-            // So if strategy returns ETH, we just need to make sure we have enough WETH/ETH total.
-            // Let's wrap it to WETH to keep the logic simple below
             weth.deposit{value: shortage}();
             availableLiquidity += shortage;
         }
